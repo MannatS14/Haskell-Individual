@@ -1,5 +1,6 @@
 module Main (main) where
 
+import Lib (mainSimulation)
+
 main :: IO ()
-main = do
-  putStrLn "hello world"
+main = mainSimulation

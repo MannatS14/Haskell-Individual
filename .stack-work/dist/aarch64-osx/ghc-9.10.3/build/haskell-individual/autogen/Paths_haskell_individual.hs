@@ -47,7 +47,7 @@ getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: 
 
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 bindir     = "/Users/mannatsingh/Downloads/haskell-individual/.stack-work/install/aarch64-osx/036bdb8f87d50f69d4ef953618be31a7728429705ee0a9e0b724aef145b15a66/9.10.3/bin"
-libdir     = "/Users/mannatsingh/Downloads/haskell-individual/.stack-work/install/aarch64-osx/036bdb8f87d50f69d4ef953618be31a7728429705ee0a9e0b724aef145b15a66/9.10.3/lib/aarch64-osx-ghc-9.10.3-fe9c/haskell-individual-0.1.0.0-BStHjXrwJ6jBomuroPrAL3-haskell-individual"
+libdir     = "/Users/mannatsingh/Downloads/haskell-individual/.stack-work/install/aarch64-osx/036bdb8f87d50f69d4ef953618be31a7728429705ee0a9e0b724aef145b15a66/9.10.3/lib/aarch64-osx-ghc-9.10.3-fe9c/haskell-individual-0.1.0.0-BmpgZX7xLbeDHHWBlaPSm1-haskell-individual"
 dynlibdir  = "/Users/mannatsingh/Downloads/haskell-individual/.stack-work/install/aarch64-osx/036bdb8f87d50f69d4ef953618be31a7728429705ee0a9e0b724aef145b15a66/9.10.3/lib/aarch64-osx-ghc-9.10.3-fe9c"
 datadir    = "/Users/mannatsingh/Downloads/haskell-individual/.stack-work/install/aarch64-osx/036bdb8f87d50f69d4ef953618be31a7728429705ee0a9e0b724aef145b15a66/9.10.3/share/aarch64-osx-ghc-9.10.3-fe9c/haskell-individual-0.1.0.0"
 libexecdir = "/Users/mannatsingh/Downloads/haskell-individual/.stack-work/install/aarch64-osx/036bdb8f87d50f69d4ef953618be31a7728429705ee0a9e0b724aef145b15a66/9.10.3/libexec/aarch64-osx-ghc-9.10.3-fe9c/haskell-individual-0.1.0.0"
