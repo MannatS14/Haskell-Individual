@@ -64,10 +64,15 @@ simulateUser allUsers globalInfo me = forever $ do
         let target = candidates !! idx
         
         -- 4. Create a message
+        -- Pick a random content body
+        let messages = ["Hello", "Hi there", "How are you?", "Haskell is fun", "Threads are cool", "Pink Elephants", "Blue Sky"]
+        msgIdx <- randomRIO (0, length messages - 1)
+        let body = messages !! msgIdx
+        
         -- EXTENSION: 5% chance to send a "Viral" message
         isViral <- (< 0.05) <$> (randomRIO (0.0, 1.0) :: IO Double)
         let msg = Message
-                { msgContent = "Hello from " ++ userName me
+                { msgContent = body ++ " (from " ++ userName me ++ ")"
                 , msgSender = userName me
                 , msgIsViral = isViral
                 }
