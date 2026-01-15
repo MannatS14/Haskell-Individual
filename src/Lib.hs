@@ -6,12 +6,8 @@ import System.Random (randomRIO)
 import Text.Printf (printf)
 import Types
 
--- | The main entry point for the simulation.
--- 1. Creates a shared global counter.
--- 2. Creates 10 user definitions.
--- 3. Spawns a background thread for each user.
--- 4. Waits until 100 messages are sent.
--- 5. Prints the final statistics.
+-- | The main entry point.
+-- Setting up global state, creating users, spawning threads, and waiting for the simulation to finish.
 mainSimulation :: IO ()
 mainSimulation = do
     putStrLn "Starting Social Network Simulation..."
@@ -19,25 +15,24 @@ mainSimulation = do
     -- Global counter for total messages sent across the network
     globalCount <- newMVar 0
     
-    -- Create 10 users with unique names
+    -- Creating 10 users with unique names
     users <- mapM createUser [1..10]
     
     putStrLn $ "Created " ++ show (length users) ++ " users."
     
-    -- Spawn threads: Each user gets their own lightweight thread
+    -- Spawning a thread for each user
     mapM_ (forkIO . simulateUser users globalCount) users
     
-    -- Main thread waits for the simulation to complete
+    -- Waiting until the 100 message limit is reached
     waitForCompletion globalCount
     
-    -- Print the report
-    putStrLn "\nSimulation ended. Gathering results..."
+    putStrLn "\nSimulation ended. Gathering the results..."
     printResults users
 
--- | Creates a new User with empty mailboxes and counters.
+-- | Creating a new User with empty mailboxes and counters.
 createUser :: Int -> IO User
 createUser i = do
-    inbox <- newMVar []  -- Empty inbox
+    inbox <- newMVar []
     sent <- newMVar 0
     received <- newMVar 0
     return $ User
@@ -50,78 +45,71 @@ createUser i = do
 -- | The logic that runs inside each User's thread.
 simulateUser :: [User] -> MVar Int -> User -> IO ()
 simulateUser allUsers globalInfo me = forever $ do
-    -- 1. Simulate "working" or "thinking" time (0.1s to 0.5s)
+    -- Sleep for a random interval (0.1s to 0.5s)
     delay <- randomRIO (100000, 500000)
     threadDelay delay
     
-    -- 2. Check if the simulation is still active
+    -- Stopping if we've reached the message limit
     total <- readMVar globalInfo
     when (total < 100) $ do
         
-        -- 3. Pick a random recipient (not myself)
+        --  Picking a random recipient (excluding myself)
         let candidates = filter (\u -> userName u /= userName me) allUsers
         idx <- randomRIO (0, length candidates - 1)
         let target = candidates !! idx
         
-        -- 4. Create a message
-        -- Pick a random content body
+        -- Creating the message
         let messages = ["Hello", "Hi there", "How are you?", "Haskell is fun", "Threads are cool", "Pink Elephants", "Blue Sky"]
         msgIdx <- randomRIO (0, length messages - 1)
         let body = messages !! msgIdx
         
-        -- EXTENSION: 5% chance to send a "Viral" message
+        -- Extension logic: 5% chance of the message being "Viral"
         isViral <- (< 0.05) <$> (randomRIO (0.0, 1.0) :: IO Double)
         let msg = Message
                 { msgContent = body ++ " (from " ++ userName me ++ ")"
                 , msgSender = userName me
-                , msgIsViral = isViral
+                , msgIsViral = isViral 
                 }
         
-        -- 5. Send the message
         sendMessage target msg
         
-        -- 6. Update my 'Sent' counter
+        -- Updating local counters
         modifyMVar_ (userSentCount me) (\n -> return (n + 1))
         
-        -- 7. Update the global counter
+        -- Updating the global counter
         modifyMVar_ globalInfo (\n -> do
             let newTotal = n + 1
             when (newTotal == 100) $ putStrLn "\n--- Limit of 100 messages reached! ---"
             return newTotal)
     
-    -- 8. Check my inbox for any incoming Viral messages to forward
+    -- Check for any incoming viral messages to forward
     checkInbox allUsers me
 
--- | Helper to send a message to a user.
--- Thread-safe: modifies the target's inbox MVar.
+-- | Thread-safe helper for sending a message to a user.
 sendMessage :: User -> Message -> IO ()
 sendMessage target msg = do
-    -- Add message to inbox
+    -- Updating target's state
     modifyMVar_ (userInbox target) $ \msgs -> return (msgs ++ [msg])
-    -- Increment their received count
     modifyMVar_ (userReceivedCount target) $ \n -> return (n + 1)
     
     let viralTag = if msgIsViral msg then " [VIRAL]" else ""
     putStrLn $ printf "%s -> %s: %s%s" (msgSender msg) (userName target) (msgContent msg) viralTag
 
--- | Checks the user's inbox for viral messages and forwards them.
--- Clears the inbox after processing.
+-- | Processing the inbox for any viral messages that needs to be forwarded.
 checkInbox :: [User] -> User -> IO ()
 checkInbox allUsers me = do
     modifyMVar_ (userInbox me) $ \msgs -> do
         forM_ msgs $ \msg -> do
             when (msgIsViral msg) $ do
-                -- It's viral! Forward to 2 random people
-                -- (Implementation Note: Forwarded copies are not marked Viral 
-                -- to prevent infinite cascades in this small simulation)
+                -- Forwarding viral message to 2 random users
+                -- Note - Copies are not marked viral to prevent infinite loops
                 putStrLn $ printf "!!! %s caught a VIRAL message from %s! Spreading it..." (userName me) (msgSender msg)
                 spreadViralMessage allUsers me msg
-        return [] -- Clear inbox
+        return [] -- Clearing the inbox
 
--- | Logic to forward a message to 2 random users.
+-- | Forwarding a message to two other random users.
 spreadViralMessage :: [User] -> User -> Message -> IO ()
 spreadViralMessage allUsers me originalMsg = do
-    -- Pick 2 distinct targets
     let candidates = filter (\u -> userName u /= userName me) allUsers
     idx1 <- randomRIO (0, length candidates - 1)
     let target1 = candidates !! idx1
@@ -135,15 +123,15 @@ spreadViralMessage allUsers me originalMsg = do
     sendMessage target1 forwardMsg
     sendMessage target2 forwardMsg
 
--- | Busy-wait until the global counter reaches 100
+-- | Waiting until the simulation is finished.
 waitForCompletion :: MVar Int -> IO ()
 waitForCompletion globalCounter = do
     count <- readMVar globalCounter
     when (count < 100) $ do
-        threadDelay 100000 -- Check every 0.1s
+        threadDelay 100000 
         waitForCompletion globalCounter
 
--- | Print the final table of results
+-- | Display the final statistics table.
 printResults :: [User] -> IO ()
 printResults users = do
     putStrLn "\nUser Statistics:"
