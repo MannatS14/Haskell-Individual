@@ -1,10 +1,10 @@
 cabal-version:       2.2
 
-name:                haskell-individual
+name:                haskell-project
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/haskell-individual#readme
+homepage:            https://github.com/githubuser/haskell-project#readme
 license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Author name here
@@ -15,7 +15,7 @@ build-type:          Simple
 extra-source-files:  README.md
                      CHANGELOG.md
 
-executable haskell-individual
+executable haskell-project
   hs-source-dirs:      app, src
   main-is:             Main.hs
   other-modules:       Lib
