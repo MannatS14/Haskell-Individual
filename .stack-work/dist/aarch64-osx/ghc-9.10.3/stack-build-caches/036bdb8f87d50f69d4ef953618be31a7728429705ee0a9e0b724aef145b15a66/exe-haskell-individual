@@ -2,11 +2,11 @@
   hash: e29ed713e9d717d57b485d9c3ea0c5fe9a2cc0e9c99e07d500f6d405e18af3e1
 /Users/mannatsingh/Downloads/haskell-individual/README.md:
   hash: d582af49dcedf2ac63d7988ba6b8ed68dcfa269dfb1fdad9003eb11417c82b55
+/Users/mannatsingh/Downloads/haskell-individual/app/Main.hs:
+  hash: 6d88f86ec9cd13b73cfd4e7a81060767f18ec0b8cc62dde024055478c6331664
 /Users/mannatsingh/Downloads/haskell-individual/haskell-individual.cabal:
-  hash: 814229b25ad6397c11c65ec3bcd620e17c21ad2c900733ca44bf1824ff2b4d79
+  hash: b181ca5f8bd7bcb2342c65cf75d131685c630795186cd8a91f409da297ad0350
 /Users/mannatsingh/Downloads/haskell-individual/src/Lib.hs:
   hash: 8277ff99190c9461a90596d17c01f6b7bb1005ec6161ebf3aa363120c7ec42f6
-/Users/mannatsingh/Downloads/haskell-individual/src/Main.hs:
-  hash: 6d88f86ec9cd13b73cfd4e7a81060767f18ec0b8cc62dde024055478c6331664
 /Users/mannatsingh/Downloads/haskell-individual/src/Types.hs:
   hash: 1aa0c1bbb6a5659a9f64de169b0f0bf268a46013401bdc5e2e0bd373343b3185
