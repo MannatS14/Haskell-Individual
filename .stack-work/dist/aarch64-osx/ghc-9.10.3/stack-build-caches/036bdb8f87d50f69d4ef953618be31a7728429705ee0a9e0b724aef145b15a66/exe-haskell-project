@@ -5,8 +5,10 @@
 /Users/mannatsingh/Downloads/haskell-individual/app/Main.hs:
   hash: a225c0f765b2927677dbc034c79eb75a5add6fa4bf011277846296cc255e9c26
 /Users/mannatsingh/Downloads/haskell-individual/haskell-project.cabal:
-  hash: eaef7d6bbe817f806dbbbc5c3ce462d8c5a2aca2836ac92e63a2059f0afdb7bf
+  hash: 4dfb812e20540896c2f9e95fcdc51e01ad02b084d2ba00d77ec05efd247eb65e
 /Users/mannatsingh/Downloads/haskell-individual/src/Lib.hs:
-  hash: 0ea0241260f96efb2175c3225dcaa733f70292af15d399e4a46ff0031690211c
+  hash: 57362691ef78369d9eaed9ee5f780b85b5406e91d7f0a9eb356a65f1530d953a
 /Users/mannatsingh/Downloads/haskell-individual/src/Types.hs:
   hash: 5fd8c4ca2e4377acd09c5dd2088a17abb9a01a28873fd9cfb25f35241c44b7dc
+/Users/mannatsingh/Downloads/haskell-individual/src/UserLogic.hs:
+  hash: 2d32b24ee538a9c8286e9ee5b46297bed8f037fc600253dd7446ffa30b31bf16

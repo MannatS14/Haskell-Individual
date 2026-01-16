@@ -19,7 +19,7 @@ I chose `MVar` (Mutable Variable) over other concurrency primitives (like STM) b
 The Extra Feature: Information Warfare Simulation
 For the distinction part of the project, I decided to go beyond simple random messaging. The basic specification required random messages, but I felt that modeling a "real" social network required modeling the spread of information—specifically misinformation. I implemented an "Information Warfare" model with adversarial agents.
 
-Influencers vs. Fact Checkers - Instead of all users being equal, I assigned them roles. "User1" acts as an Influencer who has a 50% chance of generating "Viral" content (marked with a 🔥 icon). On the other side, "User2" and "User3" act as Fact Checkers. If they receive viral content, they immediately identify and block it (stopping the chain), marked by a 🛑 icon. Standard users simply spread what they hear (⚡ icon).
+Influencers vs. Fact Checkers - Instead of all users being equal, I assigned them roles. "User1" acts as an Influencer who has a 50% chance of generating "Viral" content. On the other side, "User2" and "User3" act as Fact Checkers. If they receive viral content, they immediately identify and block it (stopping the chain). Standard users simply spread what they hear.
 
 Why this was challenging -
 
@@ -41,5 +41,6 @@ stack haddock
 
 Module Structure
 Types.hs - Definitions of the concurrent data structures (`User`, `Message`).
-Lib.hs - The core logic. Contains the `simulateUser` loop, the Influencer/Fact Checker logic, and the thread coordination code.
-Main.hs - The entry point that initializes the global state and kicks off the simulation.
+UserLogic.hs - The user agent behavior. Contains `simulateUser`, viral propagation, and fact-checking logic.
+Lib.hs - The core orchestration. Initializes the users, spawns threads, and manages global state.
+Main.hs - The entry point that kicks off the simulation found in Lib.hs.
