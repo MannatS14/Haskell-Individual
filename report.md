@@ -23,7 +23,7 @@ This project simulates a social network using concurrent Haskell threads. The sy
 
 ## 3. Issues Faced
 - **Thread Termination**: One challenge was clean termination. The main thread uses a simple busy-wait loop checking the global counter.
-- **Graceful Shutdown**: You may notice viral messages appearing slightly after the 100-message limit. This is intentional: I designed the system to allow "in-flight" viral cascades to complete their propagation even after the limit is reached, ensuring no viral event is cut off mid-process.
+- **Strict Compliance vs. Graceful Shutdown**: A realistic system would use "Graceful Shutdown" to allow in-flight messages (like viral cascades) to complete. However, to adhere strictly to the assignment's termination criterion ("100 messages"), I implemented a **Hard Cap**. The system intentionally intercepts and drops in-flight viral propagation the moment the 100th message is logged. This demonstrates a conscious design trade-off: prioritizing specification compliance over the realism of completing every active cascade.
 - **Self-Messaging**: I had to ensure users filter themselves out of the candidate list.
 
 ## 4. Extension: Information Warfare Simulation
@@ -43,3 +43,5 @@ The simulation output uses icons to visualize this "Information Warfare":
 **Note on Order**: Due to concurrency, a user thread performs actions in this order: `Sleep -> Send Message -> Check Inbox`. Therefore, you may see a potential Fact Checker send a message *before* the log line showing them blocking an incoming viral message. This is expected concurrent behavior.
 
 This models a competitive system of **Propagation vs Containment** within a concurrent network, demonstrating complex heterogeneous agent behavior.
+
+
