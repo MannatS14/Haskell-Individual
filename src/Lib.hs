@@ -134,14 +134,15 @@ checkInbox allUsers me globalInfo = do
                 if userName me `elem` ["User2", "User3"]
                     then do
                         -- Fact Checker Logic - Blocks the message!
-                        -- Blocking doesn't count as a message sent, so we just log it with a specialized 0 index or no index?
-                        -- User requested "output starting with index".
-                        -- Let's just print it without index or use a placeholder, preventing it from consuming the global cap.
                         putStrLn $ printf "      [BLOCK] 🛑 %s stopped a VIRAL msg from %s" (userName me) (msgSender msg)
                     else do
-                        -- Regular User - Spreads it!
-                        putStrLn $ printf "      [SPREAD] ⚡ %s caught VIRAL msg from %s -> Spreading..." (userName me) (msgSender msg)
-                        spreadViralMessage allUsers me msg globalInfo
+                        -- Regular User - Spreads it? Check limit first!
+                        val <- readMVar globalInfo
+                        if val >= 100 
+                            then putStrLn $ printf "      [HALTED] ✋ %s caught VIRAL msg but limit reached -> Stopped." (userName me)
+                            else do
+                                putStrLn $ printf "      [SPREAD] ⚡ %s caught VIRAL msg from %s -> Spreading..." (userName me) (msgSender msg)
+                                spreadViralMessage allUsers me msg globalInfo
         return [] -- Clearing the inbox
 
 -- | Forwarding a message to two other random users.
